@@ -1,16 +1,19 @@
 # deteksi-bentuk-warna
+```
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from google.colab import files
 import math
-``
+```
+```
 # Upload gambar
 uploaded = files.upload()
 filename = next(iter(uploaded))
 img = cv2.imread(filename)
-``
+```
+```
 # Preprocessing
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -27,10 +30,12 @@ def angle(pt1, pt2, pt3):
     cos_angle = (a**2 + c**2 - b**2) / (2 * a * c)
     cos_angle = np.clip(cos_angle, -1.0, 1.0)
     return np.arccos(cos_angle) * 180 / np.pi
-
+```
+```
 # Ekstraksi data
 hasil = []
-
+```
+```
 # Proses kontur
 for cnt in contours:
     area = cv2.contourArea(cnt)
@@ -60,7 +65,8 @@ for cnt in contours:
             shape = "Lingkaran"
         elif 5 <= sisi <= 6:
             shape = "Trapesium"
-
+```
+```
         # Warna
         mask = np.zeros(gray.shape, dtype="uint8")
         cv2.drawContours(mask, [approx], -1, 255, -1)
@@ -80,7 +86,8 @@ for cnt in contours:
         # Gambar label
         cv2.drawContours(img, [approx], 0, (0, 255, 0), 2)
         cv2.putText(img, shape, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
-
+```
+```
 # Tampilkan gambar hasil
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 plt.figure(figsize=(10, 8))
@@ -92,3 +99,4 @@ plt.show()
 # Tampilkan tabel hasil
 df = pd.DataFrame(hasil)
 df
+```
